@@ -10,7 +10,43 @@
     </head>
 
     <body>
-        start
+        <div id="app">
+            <div class="scrolldiv h-screen w-full bg-[#010101]"></div>
+
+            <div class="wrapper w-full h-screen bg-[#010101] flex items-center justify-center">
+                <div class="svg-wrapper h-[45%] w-[35%]">
+                    <svg width="100%" height="100%">
+                        <defs>
+                            <filter id="myFilter">
+                                <feTurbulence type="fractalNoice" baseFrequency="0.15" numOctaves="2" result="NOICE" />
+                                <feDisplacementMap
+                                    in="SourceGraphic"
+                                    in2="NOICE"
+                                    scale="250"
+                                    xChannelSelector="R"
+                                    yChannelSelector="G"
+                                />
+                            </filter>
+
+                            <mask id="mask">
+                                <circle cx="50%" cy="50%" r="0" fill="white" class="displacement" />
+                            </mask>
+                        </defs>
+                        <image
+                            width="100%"
+                            height="100%"
+                            mask="url(#mask)"
+                            xlink:href="./src/assets/images/img1.jpg"
+                        ></image>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="scrolldiv h-screen w-full bg-[#010101]"></div>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
 
         <script type="module" src="./src/assets/js/main.js"></script>
     </body>
