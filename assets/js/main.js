@@ -619,7 +619,6 @@ if (!prefersReducedMotion) {
         },
     });
 }
-hero - bottom;
 
 // ============================================================
 // 9. REFRESH SCROLLTRIGGER AFTER THE PAGE LOADS
