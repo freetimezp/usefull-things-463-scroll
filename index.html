@@ -1,67 +1,124 @@
 <!doctype html>
 <html lang="en">
     <head>
+        <!-- Defines the character encoding so text and symbols display correctly. -->
         <meta charset="UTF-8" />
+
+        <!-- Makes the website responsive on mobile phones, tablets, and desktops. -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <!-- Sets the browser theme color, for example, the color of the mobile browser toolbar. -->
         <meta name="theme-color" content="#07080a" />
+
+        <!-- A short description of the website for search engines. -->
         <meta
             name="description"
             content="The Last Knight — a cinematic story of honor and ruin."
         />
 
+        <!-- Connects to Google Fonts early to improve font loading performance. -->
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+        <!-- Imports Cinzel for medieval-style headings and DM Mono for technical labels. -->
         <link
             href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap"
             rel="stylesheet"
         />
 
+        <!-- Loads our custom CSS file, which controls layout, colors, typography, and effects. -->
         <link rel="stylesheet" href="./assets/css/style.css" />
+
+        <!-- The title displayed in the browser tab. -->
         <title>THE LAST KNIGHT — Chronicles of the Fallen</title>
     </head>
 
     <body>
+        <!-- Main wrapper for the entire website. -->
         <div class="site-shell">
+            <!--
+                OPENING TITLE
+
+                This is the cinematic title shown during the opening animation.
+                JavaScript and GSAP control its appearance and disappearance.
+                aria-hidden="true" hides this decorative element from screen readers.
+            -->
             <div class="opening-title" aria-hidden="true">
                 <div class="opening-title-inner">
+                    <!-- Small introductory text above the main title. -->
                     <span class="opening-overline">
                         A CHRONICLE OF HONOR & RUIN
                     </span>
 
+                    <!-- The large title displayed during the opening animation. -->
                     <h2>
                         THE LAST
-                        <span>KNIGHT<span class="opening-period">.</span></span>
+                        <span>
+                            KNIGHT<span class="opening-period">.</span>
+                        </span>
                     </h2>
 
+                    <!-- Information displayed along the bottom of the opening screen. -->
                     <div class="opening-footer">
                         <span>ORDO / 01</span>
 
+                        <!-- Decorative scroll indicator. CSS animates the small line. -->
                         <span class="opening-scroll">
                             ENTER THE LEGEND
                             <i></i>
                         </span>
 
+                        <!-- A Roman-numeral-style date used for atmosphere. -->
                         <span>EST. MCCCXLVIII</span>
                     </div>
                 </div>
             </div>
 
+            <!--
+                TOP NAVIGATION
+
+                The header contains the brand, a centered label, and a link.
+                CSS positions these elements, while the links navigate to page sections.
+            -->
             <header class="topbar">
+                <!-- Clicking the logo takes the visitor back to the home section. -->
                 <a class="brand" href="#home" aria-label="The Last Knight home">
                     <span class="brand-mark">✳</span>
                     <span>ORDO / 01</span>
                 </a>
 
+                <!-- Centered navigation text. -->
                 <div class="topbar-center">CHRONICLES OF THE FALLEN</div>
 
+                <!-- Clicking this link scrolls to the story section with id="story". -->
                 <a class="topbar-link" href="#story">
                     THE STORY <span>↗</span>
                 </a>
             </header>
 
+            <!-- Main contains the primary content of the page. -->
             <main>
+                <!--
+                    HERO / INTRO SECTION
+
+                    This is the first major section visitors see.
+                    The id="home" allows links such as href="#home" to return here.
+                -->
                 <section class="intro" id="home">
+                    <!--
+                        SCENE
+
+                        A container for the hero image, dark overlays, labels,
+                        title, and scroll indicator.
+                    -->
                     <div class="scene">
+                        <!--
+                            SVG IMAGE REVEAL
+
+                            SVG allows us to create shapes, masks, and filters.
+                            In this project, a circular shape reveals the knight image.
+                            GSAP animates the circle to create the opening reveal effect.
+                        -->
                         <div class="scene-image">
                             <svg
                                 class="reveal-svg"
@@ -70,7 +127,25 @@
                                 role="img"
                                 aria-label="A mysterious knight in a closed steel helmet"
                             >
+                                <!--
+                                    DEFINITION BLOCK
+
+                                    The <defs> element stores reusable SVG effects.
+                                    These definitions do not display independently;
+                                    they are applied to shapes and images below.
+                                -->
                                 <defs>
+                                    <!--
+                                        DISPLACEMENT FILTER
+
+                                        Adds a distorted, turbulent effect to a shape.
+                                        feTurbulence generates procedural noise.
+                                        feDisplacementMap uses that noise to distort
+                                        the input graphic.
+
+                                        GSAP can animate the circle that uses this filter
+                                        to produce an organic, irregular reveal.
+                                    -->
                                     <filter
                                         id="myFilter"
                                         x="-30%"
@@ -78,6 +153,7 @@
                                         width="160%"
                                         height="160%"
                                     >
+                                        <!-- Generates noise used by the distortion effect. -->
                                         <feTurbulence
                                             type="fractalNoise"
                                             baseFrequency="0.015"
@@ -85,6 +161,8 @@
                                             seed="8"
                                             result="NOISE"
                                         />
+
+                                        <!-- Distorts the original shape using the generated noise. -->
                                         <feDisplacementMap
                                             in="SourceGraphic"
                                             in2="NOISE"
@@ -94,6 +172,15 @@
                                         />
                                     </filter>
 
+                                    <!--
+                                        IMAGE MASK
+
+                                        A mask determines which parts of an image are visible.
+                                        Black hides the image; white reveals it.
+
+                                        The circle starts with radius 0, so the image begins
+                                        hidden. Increasing its radius reveals more of the image.
+                                    -->
                                     <mask
                                         id="knightMask"
                                         maskUnits="userSpaceOnUse"
@@ -102,12 +189,18 @@
                                         width="1000"
                                         height="1000"
                                     >
+                                        <!-- Initially hides the entire image. -->
                                         <rect
                                             width="1000"
                                             height="1000"
                                             fill="black"
                                         />
 
+                                        <!--
+                                            This is the animated reveal circle.
+                                            The class "displacement" lets JavaScript find it.
+                                            The filter gives its edge a distorted appearance.
+                                        -->
                                         <circle
                                             class="displacement"
                                             cx="500"
@@ -117,16 +210,15 @@
                                             filter="url(#myFilter)"
                                         />
                                     </mask>
-
-                                    <radialGradient id="imageVignette">
-                                        <stop offset="38%" stop-color="white" />
-                                        <stop
-                                            offset="100%"
-                                            stop-color="black"
-                                        />
-                                    </radialGradient>
                                 </defs>
 
+                                <!--
+                                    THE KNIGHT IMAGE
+
+                                    Replace img1.jpg with another image if desired.
+                                    The mask attribute connects the image to the mask above.
+                                    The image is revealed through the animated circle.
+                                -->
                                 <image
                                     class="knight-image"
                                     href="./assets/images/img1.jpg"
@@ -140,75 +232,128 @@
                             </svg>
                         </div>
 
+                        <!--
+                            VISUAL OVERLAYS
+
+                            These elements sit above the image.
+                            CSS typically gives them transparent backgrounds,
+                            gradients, grain, and dark edges.
+                        -->
                         <div class="scene-shade"></div>
                         <div class="scene-grain"></div>
                         <div class="scene-vignette"></div>
 
+                        <!--
+                            COORDINATES
+
+                            Decorative location and setting information.
+                            CSS places the labels around the edges of the hero scene.
+                        -->
                         <div class="coordinates">
                             <span>51°30′26″N</span>
                             <span>THE NORTHERN FRONTIER</span>
                         </div>
 
+                        <!-- Left-side vertical label. -->
                         <div class="side-label side-label-left">
                             <span class="side-line"></span>
                             <span>AN AGE OF SILENCE</span>
                         </div>
 
+                        <!-- Right-side vertical label. -->
                         <div class="side-label side-label-right">
                             <span>EST. MCCCXLVIII</span>
                             <span class="side-line"></span>
                         </div>
 
+                        <!--
+                            HERO TEXT
+
+                            Contains the introductory label, main heading,
+                            description, scroll prompt, and page index.
+                        -->
                         <div class="hero-copy">
+                            <!-- Small label above the main heading. -->
                             <p class="eyebrow">
                                 <span class="eyebrow-dot"></span>
                                 A CHRONICLE OF HONOR & RUIN
                             </p>
 
+                            <!--
+                                MAIN HERO HEADING
+
+                                The two spans split the heading into separate lines.
+                                This makes it easier to animate each line independently
+                                with GSAP or style them differently in CSS.
+                            -->
                             <h1 class="hero-title">
                                 <span class="title-line title-line-top">
                                     THE LAST
                                 </span>
+
                                 <span class="title-line title-line-bottom">
                                     KNIGHT<span class="title-period">.</span>
                                 </span>
                             </h1>
 
+                            <!-- Content arranged beneath the heading. -->
                             <div class="hero-bottom">
+                                <!-- Short description of the story. -->
                                 <p class="hero-description">
                                     When kingdoms fall, legends remain.
                                 </p>
 
+                                <!-- Visual cue encouraging the visitor to scroll. -->
                                 <div class="scroll-cue">
                                     <span>SCROLL TO AWAKEN</span>
                                     <span class="scroll-arrow">↓</span>
                                 </div>
 
+                                <!-- Indicates the current scene or chapter. -->
                                 <span class="hero-index">01 / 04</span>
                             </div>
                         </div>
 
+                        <!--
+                            FLASH OVERLAY
+
+                            A layer used for a brief flash during the opening animation.
+                            Its visual appearance and animation are controlled by CSS and GSAP.
+                        -->
                         <div class="intro-flash"></div>
                     </div>
                 </section>
 
+                <!--
+                    STORY SECTION
+
+                    This section introduces the story after the hero.
+                    Its id="story" is the destination of the navigation link above.
+                -->
                 <section class="story-section" id="story">
+                    <!-- Small chapter labels positioned along the top. -->
                     <div class="story-topline">
                         <span>CHAPTER I</span>
                         <span>THE OATH</span>
                     </div>
 
+                    <!-- Main story content. -->
                     <div class="story-content">
+                        <!-- Introductory label above the heading. -->
                         <p class="story-kicker">BEFORE THE KINGDOM FELL</p>
 
+                        <!-- Story heading with a separately styled word. -->
                         <h2 class="story-title">
                             An oath forged<br />
                             in <span>darkness.</span>
                         </h2>
 
+                        <!-- Supporting information below the heading. -->
                         <div class="story-bottom">
+                            <!-- Chapter number and name. -->
                             <p class="story-number">I — THE BEGINNING</p>
 
+                            <!-- The opening paragraph of the story. -->
                             <p class="story-text">
                                 There was a time when steel spoke louder than
                                 kings, when a promise was worth more than gold,
@@ -218,46 +363,97 @@
                         </div>
                     </div>
 
+                    <!--
+                        DECORATIVE WATERMARK
+
+                        A large background word, usually styled with low opacity.
+                        CSS controls its position so it does not overpower the text.
+                    -->
                     <div class="story-watermark">HONOR</div>
                 </section>
 
+                <!--
+                    INTERLUDE SECTION
+
+                    A visual pause between the story and footer.
+                    The quote creates a cinematic, editorial feel.
+                -->
                 <section class="interlude">
                     <div class="interlude-content">
+                        <!-- Small label above the quotation. -->
                         <span class="interlude-label">
                             THE OLD WORLD IS GONE
                         </span>
 
+                        <!-- Main quotation. <br /> creates an intentional line break. -->
                         <p class="interlude-quote">
                             “Not every hero<br />
                             survives his legend.”
                         </p>
 
+                        <!-- Attribution for the quotation. -->
                         <span class="interlude-author">
                             — THE LAST CHRONICLE
                         </span>
                     </div>
                 </section>
 
+                <!--
+                    FOOTER
+
+                    The final area of the page, containing the brand,
+                    a closing message, and a link back to the hero.
+                -->
                 <footer class="footer">
+                    <!-- Footer logo, linking back to the home section. -->
                     <a class="brand" href="#home">
                         <span class="brand-mark">✳</span>
                         <span>ORDO / 01</span>
                     </a>
 
+                    <!-- Closing message. -->
                     <span class="footer-note">
                         THE END IS ONLY THE BEGINNING
                     </span>
 
+                    <!-- Clicking this link navigates back to the top of the page. -->
                     <a class="back-to-top" href="#home">BACK TO TOP ↑</a>
                 </footer>
             </main>
         </div>
 
+        <!--
+            GSAP CORE
+
+            GSAP is a JavaScript animation library.
+            It animates properties such as opacity, position, scale, and rotation.
+            Load it before ScrollTrigger and your own JavaScript file.
+        -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+
+        <!--
+            SCROLLTRIGGER
+
+            A GSAP plugin that starts, controls, or reverses animations
+            based on the visitor's scroll position.
+        -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
 
+        <!--
+            LENIS
+
+            A smooth-scrolling library that makes page scrolling feel more fluid.
+            Your JavaScript file can connect Lenis to GSAP and ScrollTrigger.
+        -->
         <script src="https://unpkg.com/lenis@1.3.26/dist/lenis.min.js"></script>
 
+        <!--
+            YOUR JAVASCRIPT
+
+            Loads the main animation logic from assets/js/main.js.
+            type="module" enables modern JavaScript modules, including import/export.
+            The script is loaded after the HTML elements have been declared.
+        -->
         <script type="module" src="./assets/js/main.js"></script>
     </body>
 </html>
